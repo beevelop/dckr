@@ -1,0 +1,29 @@
+sudo: required
+
+services:
+  - docker
+
+script:
+  - chmod +x dckr
+
+  - docker pull postgres
+
+  - docker run --name data -d tianon/true
+  - docker run --name base --volumes_from data -d beevelop/base
+  - docker run --name linky --volumes_from base --link base busybox
+
+  - ./dckr ip linky
+  - ./dckr links linky
+  - ./dckr env linky
+  - ./dckr cmd linky
+  - ./dckr volf linky
+  - ./dckr vols linky
+
+  - ./dckr clean
+  - ./dckr kill
+
+  - docker run --name data -d tianon/true
+  - docker run --name base --volumes_from data -d beevelop/base
+  - docker run --name linky --volumes_from base --link base busybox
+
+  - ./dckr nuke

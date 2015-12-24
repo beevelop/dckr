@@ -1,0 +1,99 @@
+#!/bin/bash
+
+ProgName=$(basename $0)
+RED='\033[0;31m'
+NC='\033[0m' # No Color
+  
+sub_help(){
+    echo "Usage: $ProgName <subcommand> [options]"
+    echo ""
+    echo "Subcommands:"
+    echo "    ip    CONTAINER   Get a container's ip"
+    echo "    links CONTAINER   Get a container's links"
+    echo "    env   CONTAINER   Get a container's environment variables"
+    echo "    cmd   CONTAINER   Get a container's command"
+    echo "    volf  CONTAINER   Get a container's volumes_from"
+    echo "    vols  CONTAINER   Get a container's volumes"
+    echo -e "${RED}"
+    echo "DANGERZONE (don't mess with this shit... seriously):"
+    echo "    clean    Remove ALL exited containers and remove unused images"
+    echo "    kill     Stop ALL running containers and remove them"
+    echo "    nuke     Stop ALL running containers, remove them and delete ALL images"
+    echo "    reset    alias for 'nuke'"
+    echo -e "${NC}"
+    echo ""
+}
+
+you_mad() {
+    read -p "Are you completely serious? " -n 10 -r
+    echo    # (optional) move to a new line
+    if [[ ! $REPLY =~ ^[Yy]$ ]]
+    then
+        exit 1
+    fi
+}
+
+# Start of DANGERZONE
+sub_clean() {
+    docker rm -v $(docker ps -aq)
+    docker rmi $(docker images -q)
+}
+
+sub_kill() {
+    docker stop $(docker ps -aq)
+    docker rm -v $(docker ps -aq)
+}
+
+sub_nuke() {
+    docker stop $(docker ps -aq)
+    docker rm -v $(docker ps -aq)
+    docker rmi $(docker images -q)
+}
+
+sub_reset() {
+    sub_nuke
+}
+#EOD
+
+sub_ip() {
+    you_mad
+    docker inspect --type=container --format "{{ .NetworkSettings.IPAddress }}" $1
+}
+
+sub_links() {
+    docker inspect --type=container --format "{{ .HostConfig.Links }}" $1
+}
+
+sub_env() {
+    docker inspect --type=container --format "{{ .Config.Env }}" $1
+}
+
+sub_cmd() {
+    docker inspect --type=container --format "{{ .Config.Cmd }}" $1
+}
+
+sub_volf() {
+    docker inspect --type=container --format "{{ .HostConfig.VolumesFrom }}" $1
+}
+
+sub_vols() {
+    docker inspect --format --type=container "{{ .Volumes }}" $1
+}
+  
+sub=$1
+case $sub in
+    "" | "-h" | "--help")
+        sub_help
+        ;;
+    *)
+        shift
+        sub_${sub} $@
+        if [ $? = 127 ]; then
+            echo "Error: '$sub' is not a known subcommand." >&2
+            echo "       Run '$ProgName --help' for a list of known subcommands." >&2
+            echo "       If you think this command is missing, feel free to contribute." >&2
+            echo "       http://github.com/beevelop/dckr" >&2
+            exit 1
+        fi
+        ;;
+esac
