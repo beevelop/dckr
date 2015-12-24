@@ -14,6 +14,8 @@ sub_help(){
     echo "    cmd   CONTAINER   Get a container's command"
     echo "    volf  CONTAINER   Get a container's volumes_from"
     echo "    vols  CONTAINER   Get a container's volumes"
+    echo ""
+    echo "    images   List images with their size (requires 'sh' and 'du' command)"
     echo -e "${RED}"
     echo "DANGERZONE (don't mess with this shit... seriously):"
     echo "    clean    Remove ALL exited containers and remove unused images"
@@ -55,6 +57,15 @@ sub_reset() {
 }
 #EOD
 
+sub_images() {
+    images=`docker images -q`
+    for image in $images; do
+        echo -ne "$image\t"
+        docker run --rm --entrypoint=/bin/sh $image -c \
+            'du -sh / 2>/dev/null | cut -f1' \
+            || echo "ERROR!"
+    done
+}
 sub_id() {
     docker inspect --type=container --format "{{ .ID }}" $1
 }
