@@ -56,7 +56,6 @@ sub_reset() {
 #EOD
 
 sub_ip() {
-    you_mad
     docker inspect --type=container --format "{{ .NetworkSettings.IPAddress }}" $1
 }
 
