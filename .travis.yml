@@ -9,8 +9,8 @@ script:
   - docker pull postgres
 
   - docker run --name data -d tianon/true
-  - docker run --name base --volumes_from data -d beevelop/base
-  - docker run --name linky --volumes_from base --link base busybox
+  - docker run --name base --volumes-from=data -d beevelop/base
+  - docker run --name linky --volumes-from=base --link base busybox
 
   - ./dckr id linky
   - ./dckr ip linky
@@ -24,7 +24,7 @@ script:
   - ./dckr kill
 
   - docker run --name data -d tianon/true
-  - docker run --name base --volumes_from data -d beevelop/base
-  - docker run --name linky --volumes_from base --link base busybox
+  - docker run --name base --volumes-from=data -d beevelop/base
+  - docker run --name linky --volumes-from=base --link base busybox
 
   - ./dckr nuke
