@@ -12,6 +12,7 @@ script:
   - docker run --name base --volumes_from data -d beevelop/base
   - docker run --name linky --volumes_from base --link base busybox
 
+  - ./dckr id linky
   - ./dckr ip linky
   - ./dckr links linky
   - ./dckr env linky

@@ -55,6 +55,10 @@ sub_reset() {
 }
 #EOD
 
+sub_id() {
+    docker inspect --type=container --format "{{ .ID }}" $1
+}
+
 sub_ip() {
     docker inspect --type=container --format "{{ .NetworkSettings.IPAddress }}" $1
 }
