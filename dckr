@@ -91,7 +91,7 @@ sub_volf() {
 }
 
 sub_vols() {
-    docker inspect --format --type=container "{{ .Volumes }}" $1
+    docker inspect --type=container --format "{{ .Volumes }}" $1
 }
   
 sub=$1
