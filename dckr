@@ -67,7 +67,7 @@ sub_images() {
     done
 }
 sub_id() {
-    docker inspect --type=container --format "{{ .ID }}" $1
+    docker inspect --type=container --format "{{ .Id }}" $1
 }
 
 sub_ip() {
