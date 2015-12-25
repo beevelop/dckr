@@ -10,10 +10,10 @@ script:
 
   - docker run -d --name data tianon/true
   - docker run -d --name base --volumes-from=data beevelop/base tail -f /dev/null
-  - docker run -d --name linky --volumes-from=base --link base busybox tail -f /dev/null
+  - docker run -d --name linky --volumes-from=base -e UNI=CORN --link base busybox tail -f /dev/null
 
   - docker inspect linky
-  
+
   - ./dckr id linky
   - ./dckr ip linky
   - ./dckr links linky
