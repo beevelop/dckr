@@ -1,13 +1,15 @@
 #!/bin/bash
 
+DCKR_VERSION="0.0.1"
+
 ProgName=$(basename $0)
 RED='\033[0;31m'
 NC='\033[0m' # No Color
 
 sub_help(){
-    echo "Usage: $ProgName <subcommand> [options]"
+    echo "Usage: $ProgName COMMAND [options]"
     echo ""
-    echo "Subcommands:"
+    echo "Commands:"
     echo "    ip    CONTAINER   Get a container's ip"
     echo "    links CONTAINER   Get a container's links"
     echo "    env   CONTAINER   Get a container's environment variables"
@@ -15,7 +17,9 @@ sub_help(){
     echo "    volf  CONTAINER   Get a container's volumes_from"
     echo "    vols  CONTAINER   Get a container's volumes"
     echo ""
-    echo "    images   List images with their size (requires 'sh' and 'du' command)"
+    echo "    images	List images with their size (requires 'sh' and 'du' command)"
+    echo ""
+    echo "    version	Get dckr's version"
     echo -e "${RED}"
     echo "DANGERZONE (don't mess with this shit... seriously):"
     echo "    tidy     delete orphaned docker volumes"
@@ -97,6 +101,10 @@ sub_vols() {
 
 sub_tidy() {
     sudo ./docker-cleanup-volumes/docker-cleanup-volumes.sh
+}
+
+sub_version() {
+    echo "Dckr version $DCKR_VERSION"
 }
 
 sub=$1
