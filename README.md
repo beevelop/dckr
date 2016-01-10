@@ -3,7 +3,7 @@
 ## Usage
 
 ```
-Usage: dckr.sh <subcommand> [options]
+Usage: dckr <subcommand> [options]
 
 Subcommands:
     ip    CONTAINER   Get a container's ip
@@ -12,6 +12,8 @@ Subcommands:
     cmd   CONTAINER   Get a container's command
     volf  CONTAINER   Get a container's volumes_from
     vols  CONTAINER   Get a container's volumes
+
+    images   List images with their size (requires 'sh' and 'du' command)
 
 DANGERZONE (don't mess with this shit... seriously):
     clean    Remove ALL exited containers and remove unused images
