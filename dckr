@@ -3,7 +3,7 @@
 ProgName=$(basename $0)
 RED='\033[0;31m'
 NC='\033[0m' # No Color
-  
+
 sub_help(){
     echo "Usage: $ProgName <subcommand> [options]"
     echo ""
@@ -93,7 +93,11 @@ sub_volf() {
 sub_vols() {
     docker inspect --type=container --format "{{ .Volumes }}" $1
 }
-  
+
+sub_tidy() {
+    sudo ./docker-cleanup-volumes/docker-cleanup-volumes.sh
+}
+
 sub=$1
 case $sub in
     "" | "-h" | "--help")
