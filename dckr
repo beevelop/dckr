@@ -2,11 +2,14 @@
 
 DCKR_VERSION="0.0.1"
 
+# Hey there evil $0...
 ProgName=$(basename $0)
+DIR="$(dirname "$(readlink -f "$0")")"
+
 RED='\033[0;31m'
 NC='\033[0m' # No Color
 
-sub_help(){
+sub_help() {
     echo "Usage: $ProgName COMMAND [options]"
     echo ""
     echo "Commands:"
@@ -100,7 +103,7 @@ sub_vols() {
 }
 
 sub_tidy() {
-    sudo ./docker-cleanup-volumes/docker-cleanup-volumes.sh
+    sudo $DIR/docker-cleanup-volumes/docker-cleanup-volumes.sh
 }
 
 sub_version() {
