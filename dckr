@@ -18,6 +18,7 @@ sub_help(){
     echo "    images   List images with their size (requires 'sh' and 'du' command)"
     echo -e "${RED}"
     echo "DANGERZONE (don't mess with this shit... seriously):"
+    echo "    tidy     delete orphaned docker volumes"
     echo "    clean    Remove ALL exited containers and remove unused images"
     echo "    kill     Stop ALL running containers and remove them"
     echo "    nuke     Stop ALL running containers, remove them and delete ALL images"
