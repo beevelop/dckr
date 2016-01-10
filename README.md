@@ -21,3 +21,20 @@ DANGERZONE (don't mess with this shit... seriously):
 ```
 
 ## Installation
+
+### [Basher](https://github.com/basherpm/basher) (recommended)
+```
+basher install beevelop/dckr
+```
+
+### Manually
+```
+git clone https://github.com/beevelop/dckr ~/.dckr
+
+# Add ~/.dckr to your PATH env by running one of the following commands
+echo 'export PATH="$HOME/.dckr:$PATH"' >> ~/.bash_profile
+# Or on Ubuntu Desktop
+echo 'export PATH="$HOME/.dckr:$PATH"' >> ~/.bashrc
+# Or for zsh <3
+echo 'export PATH="$HOME/.dckr:$PATH"' >> ~/.zshrc
+```
