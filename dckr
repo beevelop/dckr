@@ -1,6 +1,6 @@
 #!/bin/bash
 
-DCKR_VERSION="0.0.1"
+DCKR_VERSION="0.0.2"
 
 # Hey there evil $0...
 ProgName=$(basename $0)
@@ -28,7 +28,7 @@ sub_help() {
     echo "    tidy     delete orphaned docker volumes"
     echo "    clean    Remove ALL exited containers and remove unused images"
     echo "    kill     Stop ALL running containers and remove them"
-    echo "    nuke     Stop ALL running containers, remove them and delete ALL images"
+    echo "    nuke     Kill, clean and tidy combined"
     echo "    reset    alias for 'nuke'"
     echo -e "${NC}"
     echo ""
@@ -44,24 +44,40 @@ you_mad() {
 }
 
 # Start of DANGERZONE
-sub_clean() {
+stop_all_containers() {
+    docker stop $(docker ps -aq)
+}
+
+remove_all_containers() {
     docker rm -v $(docker ps -aq)
+}
+
+remove_all_images() {
     docker rmi $(docker images -q)
+}
+
+sub_clean() {
+    remove_all_containers
+    remove_all_images
 }
 
 sub_kill() {
-    docker stop $(docker ps -aq)
-    docker rm -v $(docker ps -aq)
+    stop_all_containers
+    remove_all_containers
 }
 
 sub_nuke() {
-    docker stop $(docker ps -aq)
-    docker rm -v $(docker ps -aq)
-    docker rmi $(docker images -q)
+    sub_kill
+    remove_all_images
+    sub_tidy
 }
 
 sub_reset() {
     sub_nuke
+}
+
+sub_tidy() {
+    sudo $DIR/docker-cleanup-volumes/docker-cleanup-volumes.sh
 }
 #EOD
 
@@ -74,6 +90,7 @@ sub_images() {
             || echo "ERROR!"
     done
 }
+
 sub_id() {
     docker inspect --type=container --format "{{ .Id }}" $1
 }
