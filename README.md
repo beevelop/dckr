@@ -27,7 +27,9 @@ DANGERZONE (don't mess with this shit... seriously):
 basher install beevelop/dckr
 ```
 
-### Manually
+### Manually (definitely not recommended)
+> Basher hugely simplifies the hassle to update **dckr** and stay up-to-date with the latest development. Therefore installing manually is **not recommended**. 
+
 ```
 git clone https://github.com/beevelop/dckr ~/.dckr
 
