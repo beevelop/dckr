@@ -1,3 +1,5 @@
+![beevelop/dckr](/logo.png?raw=true)
+
 # dckr (just a bunch of docker shortcuts)
 
 ## Usage
